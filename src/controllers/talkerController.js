@@ -1,8 +1,24 @@
 const { readTalkerFile } = require('../utilities/fsUtilities');
 
-const talkerController = async (_req, res) => {
+const allTalkers = async (_req, res) => {
   const data = await readTalkerFile();
   res.status(200).json(data);
 };
 
-module.exports = talkerController;
+const talkerById = async (req, res) => {
+  const { id } = req.params;
+  const data = await readTalkerFile();
+  const talker = data.find((t) => t.id === Number(id));
+
+  if (!talker) {
+    res.status(404).json({
+      message: 'Pessoa palestrante não encontrada',
+    });
+  }
+  res.status(200).json(talker);
+};
+
+module.exports = {
+  allTalkers,
+  talkerById,
+};

@@ -1,4 +1,4 @@
-const { readTalkerFile } = require('../utilities/fsUtilities');
+const { readTalkerFile, writeTalkerFile } = require('../utilities/fsUtilities');
 
 const allTalkers = async (_req, res) => {
   const data = await readTalkerFile();
@@ -18,7 +18,25 @@ const talkerById = async (req, res) => {
   res.status(200).json(talker);
 };
 
+const addTalker = async (req, res) => {
+  const data = await readTalkerFile();
+  const { body } = req;
+
+  const newTalker = {
+    id: data.length + 1,
+    ...body,
+  };
+
+  await writeTalkerFile([
+    ...data,
+    newTalker,
+  ]);
+
+  res.status(201).json(newTalker);
+};
+
 module.exports = {
   allTalkers,
   talkerById,
+  addTalker,
 };

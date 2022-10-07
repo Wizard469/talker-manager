@@ -59,10 +59,24 @@ const deleteTalker = async (req, res) => {
   res.status(204).json(updateFile);
 };
 
+const talkersByQuery = async (req, res) => {
+  const { query: { q } } = req;
+  const data = await readTalkerFile();
+
+  if (!q) {
+    allTalkers();
+  }
+
+  const searchedResults = data.filter(({ name }) => name.includes(q));
+
+  res.status(200).json(searchedResults);
+};
+
 module.exports = {
   allTalkers,
   talkerById,
   addTalker,
   updateTalker,
   deleteTalker,
+  talkersByQuery,
 };

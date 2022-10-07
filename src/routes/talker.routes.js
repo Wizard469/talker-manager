@@ -2,8 +2,10 @@ const express = require('express');
 
 const routes = express.Router();
 
-const { allTalkers, talkerById,
-  addTalker, updateTalker, deleteTalker } = require('../controllers/talkerController');
+const {
+  allTalkers, talkerById,
+  addTalker, updateTalker,
+  deleteTalker, talkersByQuery } = require('../controllers/talkerController');
 const validateAge = require('../middlewares/validateTalker/validateAge');
 const validateName = require('../middlewares/validateTalker/validateName');
 const validateRate = require('../middlewares/validateTalker/validateRate');
@@ -12,6 +14,11 @@ const validateToken = require('../middlewares/validateTalker/validateToken');
 const validateWatchedAt = require('../middlewares/validateTalker/validateWatchedAt');
 const resolver = require('../utilities/expressRouteAdapter');
 
+routes.get(
+  '/talker/search',
+  resolver(validateToken),
+  resolver(talkersByQuery),
+);
 routes.get('/talker', resolver(allTalkers));
 routes.get('/talker/:id', resolver(talkerById));
 

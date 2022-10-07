@@ -3,7 +3,7 @@ const express = require('express');
 const routes = express.Router();
 
 const { allTalkers, talkerById,
-  addTalker, updateTalker } = require('../controllers/talkerController');
+  addTalker, updateTalker, deleteTalker } = require('../controllers/talkerController');
 const validateAge = require('../middlewares/validateTalker/validateAge');
 const validateName = require('../middlewares/validateTalker/validateName');
 const validateRate = require('../middlewares/validateTalker/validateRate');
@@ -35,6 +35,12 @@ routes.put(
   resolver(validateRate),
   resolver(validateWatchedAt),
   resolver(updateTalker),
+);
+
+routes.delete(
+  '/talker/:id',
+  resolver(validateToken),
+  resolver(deleteTalker),
 );
 
 module.exports = routes;

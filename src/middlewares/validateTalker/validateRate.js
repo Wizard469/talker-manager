@@ -1,7 +1,7 @@
 const validateRate = async (req, _res, next) => {
   const { rate } = req.body.talk;
 
-  if (!rate) {
+  if (rate === undefined) {
     next({ status: 400, message: 'O campo "rate" é obrigatório' });
   }
 

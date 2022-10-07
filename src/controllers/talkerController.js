@@ -35,8 +35,22 @@ const addTalker = async (req, res) => {
   res.status(201).json(newTalker);
 };
 
+const updateTalker = async (req, res) => {
+  const { body, params: { id } } = req;
+  const data = await readTalkerFile();
+
+  const indexToEdit = data.findIndex((t) => t.id === Number(id));
+
+  data[indexToEdit] = { ...data[indexToEdit], ...body };
+
+  await writeTalkerFile(data);
+
+  res.status(200).json(data[indexToEdit]);
+};
+
 module.exports = {
   allTalkers,
   talkerById,
   addTalker,
+  updateTalker,
 };

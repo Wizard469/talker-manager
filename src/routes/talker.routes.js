@@ -2,7 +2,8 @@ const express = require('express');
 
 const routes = express.Router();
 
-const { allTalkers, talkerById, addTalker } = require('../controllers/talkerController');
+const { allTalkers, talkerById,
+  addTalker, updateTalker } = require('../controllers/talkerController');
 const validateAge = require('../middlewares/validateTalker/validateAge');
 const validateName = require('../middlewares/validateTalker/validateName');
 const validateRate = require('../middlewares/validateTalker/validateRate');
@@ -23,6 +24,17 @@ routes.post(
   resolver(validateRate),
   resolver(validateWatchedAt),
   resolver(addTalker),
+);
+
+routes.put(
+  '/talker/:id',
+  resolver(validateToken),
+  resolver(validateName),
+  resolver(validateAge),
+  resolver(validateTalk),
+  resolver(validateRate),
+  resolver(validateWatchedAt),
+  resolver(updateTalker),
 );
 
 module.exports = routes;
